@@ -13,7 +13,7 @@ function App() {
         <Navbar/>
           <Routes>
             <Route path='/signin' element={<SignIn />} />
-            <Route path='/phiview' element={<PhiView />} />
+            <Route path='/phiviews/:id' element={<PhiView />} />
             <Route path='/' exact element={<LandingPage />} />
             <Route path='*' element={<Error />} />
           </Routes>

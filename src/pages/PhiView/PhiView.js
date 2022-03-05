@@ -1,8 +1,20 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import './PhiView.css';
+import axios from 'axios';
 
 const PhiView = () => {
+  const url = 'http https://philosophyapi.herokuapp.com/api/philosophers/1/';
+  const [phi, setPhi] = useState(null);
+
+  useEffect(() => {
+    axios.get(url)
+      .then(response => {
+      setPhi(response.data)
+    })
+  }, [url])
+
+
   return (
     <div className='phiview-cont'>
       <header className='phi-view-links-cont'>

@@ -3,17 +3,21 @@ import { Link } from 'react-router-dom';
 import './PhiView.css';
 import axios from 'axios';
 
+
+
 const PhiView = () => {
-  const url = 'http https://philosophyapi.herokuapp.com/api/philosophers/1/';
-  const [phi, setPhi] = useState(null);
+  const [phis, setPhi] = useState('');
+  const url= 'https://raw.githubusercontent.com/lewagon/flats-boilerplate/master/flats.json';
 
-  useEffect(() => {
-    axios.get(url)
-      .then(response => {
-      setPhi(response.data)
-    })
-  }, [url])
+    useEffect(() => {
+      axios.get(url)
+      .then(response => setPhi(response.data)
+        ).catch(err => {
+        console.log(err);
+      })
+    }, []);
 
+    console.log('Phi:', phis);
 
   return (
     <div className='phiview-cont'>
@@ -24,13 +28,19 @@ const PhiView = () => {
       <div className='phi-detail'>
         <img className='phi-img' src="" alt="" />
         <div className='phi-text'>
-          <h3>Name:</h3>
-          <h3>Date of Birth:</h3>
-          <h3>Date of Death:</h3>
-          <h3>Nationality:</h3>
-          <h3>Schools:</h3>
-          <h3>Books:</h3>
-          <h2>Ideas</h2>
+          {phis.map(phi=> {
+            return (
+              <div key={phi.id}>
+                <h2>{phi.name}</h2>
+                <h2>{phi.price} {phi.priceCurrency}</h2>
+                <img
+                  src={phi.imageUrl}
+                  alt={phi.name}
+                  style={{ width: "200px" }}
+                />
+              </div>
+            )
+          } )}
         </div>
       </div>
     </div>

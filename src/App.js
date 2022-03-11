@@ -14,7 +14,7 @@ function App() {
         <Navbar/>
           <Routes>
             <Route path='/signin' element={<SignIn />} />
-            <Route path='/philosophers/:id' element={<PhiView />} />
+            <Route path='/philosophers' element={<PhiView />} />
             <Route path='/' exact element={<LandingPage />} />
             <Route path='/signup' exact element={<SignUp />} />
             <Route path='*' element={<Error />} />

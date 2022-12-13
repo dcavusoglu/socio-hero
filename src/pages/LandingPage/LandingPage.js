@@ -3,11 +3,11 @@ import axios from 'axios';
 
 const LandingPage = () => {
 
-  const API_KEY = "6cGZBPSiQzyGuANS9IVyDlpO7PVpViTl";
+  // const API_KEY = "6cGZBPSiQzyGuANS9IVyDlpO7PVpViTl";
 
   const [books, setBooks] = useState([]);
   const [search, setSearch] = useState("");
-  const baseUrl = `https://api.nytimes.com/svc/books/v3/reviews.json?title=${search}&api-key=${API_KEY}`
+  const baseUrl = `http://philosophyapi.pythonanywhere.com/api/ideas/?search${search}`
 
 
   useEffect(() => {
@@ -17,7 +17,10 @@ const LandingPage = () => {
   const getBooks = async () => {
     axios.get(baseUrl)
       .then(response =>
-      setBooks(response.data.results));
+      // setBooks(response.data.results),
+      console.log('response:', response.data)
+
+      );
   }
 
   const handleSearch = e => {
@@ -39,7 +42,7 @@ const LandingPage = () => {
         ></input>
         <button type='submit'>Submit</button>
       </form>
-       <div className='searchResults'>
+       {/* <div className='searchResults'>
         {books.map(book => {
           console.log(book);
           return (
@@ -51,7 +54,7 @@ const LandingPage = () => {
 
           )
         })}
-      </div>
+      </div> */}
 
 
     </div>

@@ -1,61 +1,54 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const LandingPage = () => {
-
-  const API_KEY = "6cGZBPSiQzyGuANS9IVyDlpO7PVpViTl";
-
-  const [books, setBooks] = useState([]);
+  const [ideas, setIdeas] = useState([]);
   const [search, setSearch] = useState("");
-  const baseUrl = `https://api.nytimes.com/svc/books/v3/reviews.json?title=${search}&api-key=${API_KEY}`
-
+  const baseUrl = `/ideas/?search=${search}`;
 
   useEffect(() => {
-    getBooks();
-  }, []);
+    getIdeas();
+  }, [search]);
 
-  const getBooks = async () => {
-    axios.get(baseUrl)
-      .then(response =>
-      setBooks(response.data.results));
-  }
+  const getIdeas = () => {
+    axios.get(baseUrl).then((response) => setIdeas(response.data.results));
+  };
 
-  const handleSearch = e => {
+  const handleSearch = (e) => {
     setSearch(e.target.value);
-  }
+  };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    getBooks();
-  }
+    getIdeas();
+  };
 
   return (
-    <div className='landingPage'>
-      <form className='searchForm' onSubmit={handleSubmit}>
+    <div className="landingPage">
+      <form
+        className="searchForm"
+        onSubmit={handleSubmit}
+      >
         <input
           type="text"
           value={search}
           onChange={handleSearch}
         ></input>
-        <button type='submit'>Submit</button>
+        <button type="submit">Submit</button>
       </form>
-       <div className='searchResults'>
-        {books.map(book => {
-          console.log(book);
+      <div className="searchResults">
+        {ideas.map((idea) => {
+          console.log(idea);
           return (
-            <div key={book.isbn13}>
-              <h2>{book.book_title}</h2>
-              <h2>{book.book_author}</h2>
-              <p>{book.summary}</p>
+            <div key={idea.id}>
+              <h2>{idea.author}</h2>
+              <p>{idea.quote}</p>
             </div>
-
-          )
+          );
         })}
       </div>
-
-
     </div>
-  )
-}
+  );
+};
 
-export default LandingPage
+export default LandingPage;

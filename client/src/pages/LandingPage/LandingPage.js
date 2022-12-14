@@ -1,20 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const LandingPage = () => {
-
   // const API_KEY = "6cGZBPSiQzyGuANS9IVyDlpO7PVpViTl";
 
   const [books, setBooks] = useState([]);
   const [search, setSearch] = useState("");
-  const [results, setResults] = useState({})
-  const baseUrl = 'http://localhost:5050/convert'
+  const [results, setResults] = useState();
+  const baseUrl = "http://localhost:5050/convert";
 
   const randomPhi = books.length;
-  console.log('num', randomPhi);
-
-
-
+  //console.log("num", randomPhi);
 
   //   items.filter(item => item.id !== id)
   //   items.push(books[Math.floor(Math.random() * books.length)])
@@ -26,67 +22,82 @@ const LandingPage = () => {
   }, [search]);
 
   const getBooks = async () => {
-    axios.get(baseUrl)
-    .then(response =>
-      setBooks(response.data.results),
+    axios.get(baseUrl).then(
+      (response) => setBooks(response.data.results)
       // console.log('response:', response.data)
-      );
-    }
+    );
+  };
 
-    const items = []
+  useEffect(() => {
+    if (books.length) showRandom();
+  }, [books]);
 
-        for (var i=0; i<3; i++) {
-        const item = books[Math.floor(Math.random() * randomPhi)];
-        console.log(item);
-        if (!items.includes(item)) {
-          items.push(item);
-        }
-        // setResults(items);
+  function showRandom() {
+    const items = [];
+
+    for (var i = 0; i < 3; i++) {
+      const item = books[Math.floor(Math.random() * randomPhi)];
+      // console.log(item);
+      if (items.includes(item)) {
+        showRandom();
+        break;
+      } else {
+        items.push(item);
       }
+      setResults(items);
+    }
+    //console.log(items);
+  }
 
+  console.log(results);
 
-  console.log('items', items);
+  // console.log("items", items);
   // useEffect(() => {
   //   randomItems();
   // }, [])
 
-
-  const handleSearch = e => {
+  const handleSearch = (e) => {
     setSearch(e.target.value);
-  }
+  };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     getBooks();
-  }
+  };
 
   return (
-    <div className='landingPage'>
-      <form className='searchForm' onSubmit={handleSubmit}>
+    <div className="landingPage">
+      <form
+        className="searchForm"
+        onSubmit={handleSubmit}
+      >
         <input
           type="text"
           value={search}
           onChange={handleSearch}
         ></input>
-        <button type='submit'>Submit</button>
+        <button type="submit">Submit</button>
       </form>
-       <div className='searchResults'>
-        {books.map(book => {
-          // console.log(book);
-          return (
-            <div key={book.id}>
-              <h2>{book.author}</h2>
-              <h2>{book.quote}</h2>
-              {/* <p>{book.summary}</p> */}
-            </div>
-
-          )
-        })}
-      </div>
-
-
+      {results ? (
+        <div>
+          <p>{results.length}</p>
+        </div>
+      ) : (
+        <div className="searchResults">
+          {books.map((book) => {
+            // console.log(book);
+            return (
+              <div key={book.id}>
+                <h2>{book.author}</h2>
+                <h2>{book.quote}</h2>
+                {/* <p>{book.summary}</p> */}
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default LandingPage
+export default LandingPage;

@@ -9,6 +9,7 @@ import SignInGoogle from './SignInGoogle';
 const SignIn = props => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [ profile, setProfile ] = useState([]);
 
 
   const handleSubmit = e => {
@@ -34,7 +35,7 @@ const SignIn = props => {
 
         {/* <span><img src={google} alt="G"/></span>
         <span className='flex items-center'>Sign in with Goggle</span> */}
-        <SignInGoogle/>
+        <SignInGoogle profile={profile}/>
 
     </div>
   )

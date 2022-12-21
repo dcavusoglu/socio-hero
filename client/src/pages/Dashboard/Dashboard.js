@@ -1,8 +1,10 @@
 import React from 'react'
-
+import CurrentUser from '../SignIn/CurrentUser'
 const Dashboard = () => {
   return (
-    <div>Wellcome </div>
+    <div>
+      <CurrentUser/>
+    </div>
   )
 }
 

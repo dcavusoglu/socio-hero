@@ -8,12 +8,12 @@ const SCOPE = "https://www.googleapis.com/auth/cloud-platform"
 
 
 
-const SignInGoogle = () => {
+const SignInGoogle = (props) => {
 
-  // const [ profile, setProfile ] = useState([]);
+  const { profile, setProfile } = props;
 
   useEffect(() => {
-        const initClient = () => {
+    const initClient = () => {
             gapi.client.init({
                 clientId: clientId,
                 scope: SCOPE
@@ -24,29 +24,30 @@ const SignInGoogle = () => {
 
 
   const onSuccess = (res) => {
-        // setProfile(res.profileObj);
+        setProfile(res.profileObj);
         console.log('success', res.profileObj);
+        window.location.replace("http://localhost:3000/dashboard");
     };
     const onFailure = (err) => {
         console.log('failed', err);
     };
 
     //  const logOut = () => {
-    //     setProfile(null);
-    // };
+      //     setProfile(null);
+      // };
 
 
-  return (
-    <div>
-    <GoogleLogin
-      clientId={clientId}
-      buttonText="Sign in with Google"
-      onSuccess={onSuccess}
-      onFailure={onFailure}
-      cookiePolicy={'single_host_origin'}
-      isSignedIn={true}
-    />
-    </div>
+      return (
+        <div>
+          <GoogleLogin
+            clientId={clientId}
+            buttonText="Sign in with Google"
+            onSuccess={onSuccess}
+            onFailure={onFailure}
+            cookiePolicy={'single_host_origin'}
+            isSignedIn={true}
+          />
+        </div>
   )
 }
 

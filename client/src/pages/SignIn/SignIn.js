@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { firebaseAuth } from "../../Firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithPopup,
+  signInWithRedirect,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 import google from "../../assets/google-40.png";
-import SignInGoogle from "./SignInGoogle";
+//import SignInGoogle from "./SignInGoogle";
 
 const SignIn = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [profile, setProfile] = useState([]);
+  //const [profile, setProfile] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,6 +26,11 @@ const SignIn = (props) => {
         const { code, message } = err;
         console.log(code, message);
       });
+  };
+
+  const googleSignin = () => {
+    const provider = new GoogleAuthProvider();
+    return signInWithRedirect(firebaseAuth, provider);
   };
 
   return (
@@ -52,10 +62,21 @@ const SignIn = (props) => {
           <button className="text-white">Sign In</button>
         </Link>
       </form>
-
-      {/* <span><img src={google} alt="G"/></span>
-        <span className='flex items-center'>Sign in with Goggle</span> */}
-      <SignInGoogle profile={profile} />
+      <Link to="/dashboard">
+        <div onClick={googleSignin}>
+          <span>
+            <img
+              src={google}
+              alt="G"
+            />
+          </span>
+          <span className="flex items-center">Sign in with Goggle</span>
+        </div>
+      </Link>
+      {/* <SignInGoogle
+        setProfile={setProfile}
+        profile={profile}
+      /> */}
     </div>
   );
 };

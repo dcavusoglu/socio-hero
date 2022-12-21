@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { firebaseAuth } from "../../Firebase";
-import {
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 import google from "../../assets/google-40.png";
+import SignInGoogle from "./SignInGoogle";
 
 const SignIn = (props) => {
   const [email, setEmail] = useState("");
@@ -16,7 +12,6 @@ const SignIn = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     signInWithEmailAndPassword(firebaseAuth, email, password)
       .then((userCredential) => {
         console.log(userCredential);
@@ -56,15 +51,10 @@ const SignIn = (props) => {
           <button className="text-white">Sign In</button>
         </Link>
       </form>
-      <div className="flex flex-row">
-        <span>
-          <img
-            src={google}
-            alt="G"
-          />
-        </span>
-        <span className="flex items-center">Sign in with Goggle</span>
-      </div>
+
+      {/* <span><img src={google} alt="G"/></span>
+        <span className='flex items-center'>Sign in with Goggle</span> */}
+      <SignInGoogle />
     </div>
   );
 };

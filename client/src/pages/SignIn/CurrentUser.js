@@ -3,7 +3,6 @@ import React, {useState, useEffect} from 'react'
 import { firebaseAuth } from '../../Firebase'
 
 
-
 const CurrentUser = () => {
 const [currentUser, setCurrentUser] = useState(null);
 

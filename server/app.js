@@ -15,10 +15,11 @@ app.get('/', (req,res) => {    res.json('hi')})
 
 const options = {
     method: 'GET',
-    url: 'https://www.thecocktaildb.com/api/json/v1/1/random.php',
+    url: 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail',
     headers: {
       'Content-Type': 'application/json',
-      'Origin': 'http://localhost:3000'
+      'Origin': 'http://localhost:3000',
+      "Accept-Encoding": "gzip, deflate, compress"
     }
   }
 

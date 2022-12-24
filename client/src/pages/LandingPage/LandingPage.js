@@ -2,54 +2,52 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const LandingPage = () => {
-  // const API_KEY = "6cGZBPSiQzyGuANS9IVyDlpO7PVpViTl";
 
-  const [books, setBooks] = useState([]);
+  const [drinks, setDrinks] = useState([]);
   const [search, setSearch] = useState("");
   const [results, setResults] = useState();
-  const baseUrl = "http://localhost:5050/convert";
-
-  const randomPhi = books.length;
-  //console.log("num", randomPhi);
-
-  //   items.filter(item => item.id !== id)
-  //   items.push(books[Math.floor(Math.random() * books.length)])
-
-  //   console.log(items);
+  const baseUrl = "http://localhost:5050/cocks";
+  const randomDrinks = drinks.length;
 
   useEffect(() => {
-    getBooks();
+    getDrinks();
   }, [search]);
 
-  const getBooks = async () => {
+  const getDrinks = async () => {
     axios.get(baseUrl).then(
-      (response) => setBooks(response.data.results)
-      // console.log('response:', response.data)
+      (response) =>
+      // console.log('response:', response.data.drinks)
+      setDrinks(response.data.drinks)
     );
   };
 
-  useEffect(() => {
-    if (books.length) showRandom();
-  }, [books]);
+// şuan sadece random ile biten api linki kullandığımız için aşağıdakileri commentledim. Sonra list olanı ekleriz diye düşündüm.
+// önce bi bunu çalıştırdım
 
-  function showRandom() {
-    const items = [];
 
-    for (var i = 0; i < 3; i++) {
-      const item = books[Math.floor(Math.random() * randomPhi)];
-      // console.log(item);
-      if (items.includes(item)) {
-        showRandom();
-        break;
-      } else {
-        items.push(item);
-      }
-      setResults(items);
-    }
+
+  // useEffect(() => {
+  //   if (drinks.length) showRandom();
+  // }, [drinks]);
+
+  // function showRandom() {
+  //   const items = [];
+
+  //   for (var i = 0; i < 3; i++) {
+  //     const item = drinks[Math.floor(Math.random() * randomDrinks)];
+  //     // console.log(item);
+  //     if (items.includes(item)) {
+  //       showRandom();
+  //       break;
+  //     } else {
+  //       items.push(item);
+  //     }
+  //     setResults(items);
+  //   }
     //console.log(items);
-  }
+  // }
 
-  console.log(results);
+  // console.log(results);
 
   // console.log("items", items);
   // useEffect(() => {
@@ -62,7 +60,7 @@ const LandingPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    getBooks();
+    getDrinks();
   };
 
   return (
@@ -84,13 +82,12 @@ const LandingPage = () => {
         </div>
       ) : (
         <div className="searchResults">
-          {books.map((book) => {
-            // console.log(book);
+          {drinks.map((drink) => {
             return (
-              <div key={book.id}>
-                <h2>{book.author}</h2>
-                <h2>{book.quote}</h2>
-                {/* <p>{book.summary}</p> */}
+              <div key={drink.idDrink}>
+                <h2 className="text-base font-bold text-cyan-700">{drink.strDrink}</h2>
+                <h2>Type: {drink.strCategory}</h2>
+                <img src={drink.strDrinkThumb} alt={drink.strDrink} className='w-40 h-40'/>
               </div>
             );
           })}

@@ -7,9 +7,9 @@ const LandingPage = () => {
   const [books, setBooks] = useState([]);
   const [search, setSearch] = useState("");
   const [results, setResults] = useState();
+  const [cocktail, setCocktail] = useState(null);
   const baseUrl = "http://localhost:5050/convert";
 
-  const randomPhi = books.length;
   //console.log("num", randomPhi);
 
   //   items.filter(item => item.id !== id)
@@ -17,44 +17,38 @@ const LandingPage = () => {
 
   //   console.log(items);
 
-  useEffect(() => {
-    getBooks();
-  }, [search]);
-
-  const getBooks = async () => {
-    axios.get(baseUrl).then(
-      (response) => setBooks(response.data.results)
-      // console.log('response:', response.data)
-    );
-  };
-
-  useEffect(() => {
-    if (books.length) showRandom();
-  }, [books]);
-
-  function showRandom() {
-    const items = [];
-
-    for (var i = 0; i < 3; i++) {
-      const item = books[Math.floor(Math.random() * randomPhi)];
-      // console.log(item);
-      if (items.includes(item)) {
-        showRandom();
-        break;
-      } else {
-        items.push(item);
-      }
-      setResults(items);
-    }
-    //console.log(items);
-  }
-
-  console.log(results);
-
-  // console.log("items", items);
   // useEffect(() => {
-  //   randomItems();
-  // }, [])
+  //   getBooks();
+  // }, [search]);
+
+  // const getBooks = async () => {
+  //   axios.get(baseUrl).then(
+  //     (response) => console.log("response:", response.data)
+  //     //  setBooks(response.data.results)
+  //   );
+  // };
+
+  // useEffect(() => {
+  //   fetch(baseUrl).then((res) => res.json().then((data) => console.log(data)));
+  // }, []);
+
+  useEffect(() => {
+    fetch("https://www.thecocktaildb.com/api/json/v1/1/random.php")
+      .then((response) => {
+        response.json().then((data) => {
+          setCocktail(data);
+          //console.log(data);
+        });
+      })
+      .catch(function (err) {
+        console.log("errors", err);
+      });
+  }, []);
+  useEffect(() => {
+    if (cocktail) console.log(cocktail.drinks[0].strDrink);
+  }, [cocktail]);
+
+  //console.log(data.drinks[0].strDrink);
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
@@ -62,7 +56,7 @@ const LandingPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    getBooks();
+    // getBooks();
   };
 
   return (
@@ -78,23 +72,11 @@ const LandingPage = () => {
         ></input>
         <button type="submit">Submit</button>
       </form>
-      {results ? (
-        <div>
-          <p>{results.length}</p>
-        </div>
-      ) : (
-        <div className="searchResults">
-          {books.map((book) => {
-            // console.log(book);
-            return (
-              <div key={book.id}>
-                <h2>{book.author}</h2>
-                <h2>{book.quote}</h2>
-                {/* <p>{book.summary}</p> */}
-              </div>
-            );
-          })}
-        </div>
+      {{ cocktail } && (
+        <>
+          <h2>Random Cocktail</h2>
+          <p>{cocktail.drinks[0]}</p>
+        </>
       )}
     </div>
   );

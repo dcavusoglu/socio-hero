@@ -24,6 +24,15 @@ const options = {
     "Accept-Encoding": "gzip, deflate, compress",
   },
 };
+const searchResults = {
+  method: "GET",
+  url: "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=",
+  headers: {
+    "Content-Type": "application/json",
+    Origin: "http://localhost:3000",
+    "Accept-Encoding": "gzip, deflate, compress",
+  },
+};
 
 const getCocktailsWithPromise = () => {
   return axios.request(options).then((response) => {
@@ -31,10 +40,34 @@ const getCocktailsWithPromise = () => {
     return response.data;
   });
 };
+const getCocktailsWithName = (name) => {
+  return axios
+    .request({
+      method: "GET",
+      url: "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita",
+      headers: {
+        "Content-Type": "application/json",
+        Origin: "http://localhost:3000",
+        "Accept-Encoding": "gzip, deflate, compress",
+      },
+    })
+    .then((response) => {
+      console.log("first then : ", response.data);
+      return response.data;
+    });
+};
 
 app.get("/cocks", async (req, res) => {
   const result = await getCocktailsWithPromise();
   console.log("resultCocks : ", result);
+  return res.json(result);
+});
+app.get("/by_name", async (req, res) => {
+  const {
+    params: { name },
+  } = req;
+  const result = await getCocktailsWithName(name);
+  console.log("searchResults : ", result);
   return res.json(result);
 });
 

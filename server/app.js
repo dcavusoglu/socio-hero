@@ -1,56 +1,87 @@
-const express = require('express')
-const app = express()
-const cors = require('cors');
-const axios = require('axios');
-
+const express = require("express");
+const app = express();
+const cors = require("cors");
+const axios = require("axios");
 
 const port = 5050;
 app.use(express.json());
-app.use(cors({
-  origin: 'http://localhost:3000'
-}))
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 
-app.get('/', (req,res) => {    res.json('hi')})
-
+app.get("/", (req, res) => {
+  res.json("hi");
+});
 
 const options = {
-    method: 'GET',
-    url: 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail',
-    headers: {
-      'Content-Type': 'application/json',
-      'Origin': 'http://localhost:3000',
-      "Accept-Encoding": "gzip, deflate, compress"
-    }
-  }
+  method: "GET",
+  url: "https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail",
+  headers: {
+    "Content-Type": "application/json",
+    Origin: "http://localhost:3000",
+    "Accept-Encoding": "gzip, deflate, compress",
+  },
+};
+const searchResults = {
+  method: "GET",
+  url: "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=",
+  headers: {
+    "Content-Type": "application/json",
+    Origin: "http://localhost:3000",
+    "Accept-Encoding": "gzip, deflate, compress",
+  },
+};
 
 const getCocktailsWithPromise = () => {
-return axios.request(options)
-  .then((response) => {
-    console.log("first then : " , response.data);
+  return axios.request(options).then((response) => {
+    console.log("first then : ", response.data);
     return response.data;
   });
-}
+};
+const getCocktailsWithName = (name) => {
+  return axios
+    .request({
+      method: "GET",
+      url: "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita",
+      headers: {
+        "Content-Type": "application/json",
+        Origin: "http://localhost:3000",
+        "Accept-Encoding": "gzip, deflate, compress",
+      },
+    })
+    .then((response) => {
+      console.log("first then : ", response.data);
+      return response.data;
+    });
+};
 
-app.get('/cocks', async (req,res) => {
+app.get("/cocks", async (req, res) => {
   const result = await getCocktailsWithPromise();
-  console.log("resultCocks : " ,result);
+  console.log("resultCocks : ", result);
   return res.json(result);
-})
-
+});
+app.get("/by_name", async (req, res) => {
+  const {
+    params: { name },
+  } = req;
+  const result = await getCocktailsWithName(name);
+  console.log("searchResults : ", result);
+  return res.json(result);
+});
 
 const start = () => {
   try {
-    app.listen(port, (req,res) => {
-      console.log('you are on port', port);
-    })
+    app.listen(port, (req, res) => {
+      console.log("you are on port", port);
+    });
   } catch (err) {
     console.log(err);
   }
-}
+};
 
 start();
-
-
 
 // Bu kısım yukarıdaki işlemin async ve await ile yapılmış hali - örnek olması için kalsın
 // const getCocktails= async () => {
@@ -62,8 +93,6 @@ start();
 //     console.log(error.message);
 //   }
 // }
-
-
 
 // app.get('/all', async (req,res) => {
 //   const result = await getCocktails();

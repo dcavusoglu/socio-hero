@@ -68,7 +68,7 @@ const SignIn = (props) => {
           className='border-2 rounded-lg border-purple-500/[.55] px-2 h-8 mt-4 w-64'
         />
         <Link to="/dashboard">
-          <button className="text-white bg-indigo-500 py-1 px-4 rounded-lg my-2">Sign In</button>
+          <button className="text-white bg-purple-500 py-1 px-4 rounded-lg my-2">Sign In</button>
         </Link>
       </form>
       <Link to="/dashboard" onClick={googleSignin} className='flex flex-row items-center justify-center drop-shadow-2xl border-2 border-gray-100 p-2 rounded-lg'>

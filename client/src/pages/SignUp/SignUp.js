@@ -36,7 +36,7 @@ const SignUp = () => {
         <h2 className="text-purple-500 font-semibold text-xl">Sign Up</h2>
         <input type="email" id="email" name="email" value={email} placeholder='email' required onChange={(e)=>setEmail(e.target.value)} className='border-2 rounded-lg border-purple-500/[.55] px-2 h-8 mt-4 w-64'/>
         <input type="password" id="password" name="password" value={password} placeholder='password' required onChange={(e)=>setPassword(e.target.value)} className='border-2 rounded-lg border-purple-500/[.55] px-2 h-8 mt-4 w-64'/>
-        <Link to="/dashboard"><button className='text-white  bg-indigo-500 py-1 px-4 rounded-lg my-2'>Sign Up</button></Link>
+        <Link to="/dashboard"><button className='text-white  bg-purple-500 py-1 px-4 rounded-lg my-2'>Sign Up</button></Link>
       </div>
     </form>
     </div>

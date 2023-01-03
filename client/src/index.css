@@ -42,3 +42,17 @@ code {
   height: 2.0rem;
   margin-right: 0.7rem;
 }
+
+
+.landing-page{
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+}
+
+
+.shareCocktail {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}

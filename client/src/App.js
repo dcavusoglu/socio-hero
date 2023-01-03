@@ -5,6 +5,7 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import Dashboard from './pages/Dashboard/Dashboard';
 import SignIn from './pages/SignIn/SignIn';
 import SignUp from './pages/SignUp/SignUp';
+import Cocktail from './pages/Cocktail/Cocktail'
 import Error from './pages/Error/Error';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
             <Route path='/' exact element={<LandingPage />} />
             <Route path='/signup' exact element={<SignUp />} />
             <Route path='/dashboard' exact element={<Dashboard />} />
+            <Route path='/cocktail/:id' exact element={<Cocktail />} />
             <Route path='*' element={<Error />} />
           </Routes>
       </Router>

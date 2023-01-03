@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import {Link} from "react-router-dom";
 import axios from "axios";
 
 const LandingPage = () => {
@@ -153,47 +154,33 @@ const LandingPage = () => {
           Cocktail me
         </button>
       </form>
-      {drinks ? (
-        <div className="flex flex-row flex-wrap justify-center mx-20 ">
-          {drinks.map((drink) => {
-            return (
-              <div
-                key={drink.idDrink}
-                className="m-6 max-w-sm w-44 border border-pink-500/[.25] flex flex-col items-center rounded-b-lg shadow-xl"
-              >
-                <h2 className="text-sm font-bold text-purple-500 tracking-tight mb-2 h-10 flex items-center">
-                  {drink.strDrink}
-                </h2>
-                <img
-                  src={drink.strDrinkThumb}
-                  alt={drink.strDrink}
-                  className="w-44 h-44 rounded-b-lg"
-                />
-              </div>
-            );
-          })}
-        </div>
-      ) : (
-        <div className="columns-4 mx-20">
-          {drinks.map((drink) => {
-            return (
-              <div
-                key={drink.idDrink}
-                className="m-6 max-w-sm w-44 border border-pink-500/[.25] flex flex-col items-center rounded-b-lg shadow-xl"
-              >
-                <h2 className="text-sm font-bold text-purple-500 tracking-tight mb-2 h-10 flex items-center">
-                  {drink.strDrink}
-                </h2>
-                <img
-                  src={drink.strDrinkThumb}
-                  alt={drink.strDrink}
-                  className="w-44 h-44 rounded-b-lg"
-                />
-              </div>
-            );
-          })}
-        </div>
-      )}
+        {drinks ? (
+          <div className="flex flex-row flex-wrap justify-center mx-20 ">
+            {/* <p>{drinks.length}</p> */}
+            {drinks.map(drink => {
+              return (
+                <Link to={`/cocktail/${drink.idDrink}`} key={drink.idDrink} className='m-6 max-w-sm w-44 border border-pink-500/[.25] flex flex-col items-center rounded-b-lg shadow-xl'>
+                  <h2 className="text-sm font-bold text-purple-500 tracking-tight mb-2 h-10 flex items-center">{drink.strDrink}</h2>
+                  <img src={drink.strDrinkThumb} alt={drink.strDrink} className='w-44 h-44 rounded-b-lg'/>
+                </Link>
+              )
+            })}
+          </div>
+        ) : (
+          <div className="columns-4 mx-20">
+            {drinks.map((drink) => {
+              return (
+                <div key={drink.idDrink} className='m-6 max-w-sm w-44 border border-pink-500/[.25] flex flex-col items-center rounded-b-lg shadow-xl'>
+                  <h2 className="text-sm font-bold text-purple-500 tracking-tight mb-2 h-10 flex items-center">{drink.strDrink}</h2>
+                  <img src={drink.strDrinkThumb} alt={drink.strDrink} className='w-44 h-44 rounded-b-lg'/>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+
+
     </div>
   );
 };

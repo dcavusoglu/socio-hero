@@ -25,22 +25,22 @@ const Cocktail = () => {
     }, [])
 
 
-    useEffect(() => {
-       getIngredientList();
-      }, [cocktail])
+  //   useEffect(() => {
+  //      getIngredientList();
+  //     }, [cocktail])
 
-  const getIngredientList = () => {
-    if (cocktail) {
-      const ingredientList = [];
-      ingredientList.push(cocktail?.strIngredient1);
-      ingredientList.push(cocktail?.strIngredient2);
-      ingredientList.push(cocktail?.strIngredient3);
-      ingredientList.push(cocktail?.strIngredient4);
-      ingredientList.push(cocktail?.strIngredient5);
-      console.log(ingredientList)
-      setIngredients(ingredientList);
-    }
-  }
+  // const getIngredientList = () => {
+  //   if (cocktail) {
+  //     const ingredientList = [];
+  //     ingredientList.push(cocktail?.strIngredient1);
+  //     ingredientList.push(cocktail?.strIngredient2);
+  //     ingredientList.push(cocktail?.strIngredient3);
+  //     ingredientList.push(cocktail?.strIngredient4);
+  //     ingredientList.push(cocktail?.strIngredient5);
+  //     console.log(ingredientList)
+  //     setIngredients(ingredientList);
+  //   }
+  // }
 
   // bu kısım pngler için değişik bir kod oluşturdu, çoüınukla map içindeki item null ya da undefined geldi
   // onun yerine html de bir mapleme girişimi oldu, o da boş döndü

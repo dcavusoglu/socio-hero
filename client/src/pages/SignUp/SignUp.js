@@ -1,28 +1,32 @@
 import React, { useState } from "react";
 import "./SignUp.css";
-import axios from "axios";
-import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-
 import { firebaseAuth } from "../../Firebase";
 import glass from "../../assets/glass.png";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const signUp = (e) => {
-    console.log("signup working");
-    e.preventDefault();
-    createUserWithEmailAndPassword(firebaseAuth, email, password)
-      .then((userCredential) => {
-        console.log(userCredential);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+const onSubmit = async (e) => {
+  e.preventDefault()
+  await createUserWithEmailAndPassword(firebaseAuth, email, password)
+    .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        if(user) {
+          navigate('/dashboard')
+        }
+    })
+    .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+    });
+  }
 
   return (
     <div className="auth-form-wrapper">
@@ -34,7 +38,6 @@ const SignUp = () => {
         />
       </span>
       <form
-        onSubmit={signUp}
         className="auth-form"
       >
         <div className="flex flex-col items-center w-1/2">
@@ -59,11 +62,11 @@ const SignUp = () => {
             onChange={(e) => setPassword(e.target.value)}
             className="border-2 rounded-lg border-purple-500/[.55] px-2 h-8 mt-4 w-64"
           />
-          <Link to="/dashboard">
-            <button className="text-white  bg-purple-500 py-1 px-4 rounded-lg my-2">
+
+            <button onClick={onSubmit} className="text-white  bg-purple-500 py-1 px-4 rounded-lg my-2">
               Sign Up
             </button>
-          </Link>
+
         </div>
       </form>
     </div>

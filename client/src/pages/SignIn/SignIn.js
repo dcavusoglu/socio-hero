@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { firebaseAuth } from "../../Firebase";
 import {
   signInWithPopup,
@@ -9,20 +9,19 @@ import {
 
 import google from "../../assets/google-40.png";
 //import SignInGoogle from "./SignInGoogle";
-import glass from '../../assets/glass.png';
+import glass from "../../assets/glass.png";
 
 const SignIn = (props) => {
-
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     signInWithEmailAndPassword(firebaseAuth, email, password)
       .then((userCredential) => {
         console.log(userCredential);
+        if (userCredential) navigate("/dashboard");
       })
       .catch((err) => {
         const { code, message } = err;
@@ -35,17 +34,16 @@ const SignIn = (props) => {
     signInWithPopup(firebaseAuth, provider);
   };
 
-
-
   return (
     <div className="auth-form-wrapper">
       <span className="glass-img-cont">
-        <img src={glass} alt='coctail' className="glass-img"/>
+        <img
+          src={glass}
+          alt="coctail"
+          className="glass-img"
+        />
       </span>
-      <form
-        className="auth-form"
-        onClick={handleSubmit}
-      >
+      <form className="auth-form">
         <h2 className="text-purple-500 font-semibold text-xl">Sign In</h2>
         <input
           type="email"
@@ -55,7 +53,7 @@ const SignIn = (props) => {
           placeholder="email"
           required
           onChange={(e) => setEmail(e.target.value)}
-          className='border-2 rounded-lg border-purple-500/[.55] px-2 h-8 mt-4 w-64'
+          className="border-2 rounded-lg border-purple-500/[.55] px-2 h-8 mt-4 w-64"
         />
         <input
           type="password"
@@ -65,13 +63,21 @@ const SignIn = (props) => {
           placeholder="password"
           required
           onChange={(e) => setPassword(e.target.value)}
-          className='border-2 rounded-lg border-purple-500/[.55] px-2 h-8 mt-4 w-64'
+          className="border-2 rounded-lg border-purple-500/[.55] px-2 h-8 mt-4 w-64"
         />
-        <Link to="/dashboard">
-          <button className="text-white bg-purple-500 py-1 px-4 rounded-lg my-2">Sign In</button>
-        </Link>
+
+        <button
+          onClick={handleSubmit}
+          className="text-white bg-purple-500 py-1 px-4 rounded-lg my-2"
+        >
+          Sign In
+        </button>
       </form>
-      <Link to="/dashboard" onClick={googleSignin} className='flex flex-row items-center justify-center drop-shadow-2xl border-2 border-gray-100 p-2 rounded-lg'>
+      <Link
+        to="/dashboard"
+        onClick={googleSignin}
+        className="flex flex-row items-center justify-center drop-shadow-2xl border-2 border-gray-100 p-2 rounded-lg"
+      >
         <span>
           <img
             src={google}
@@ -79,7 +85,9 @@ const SignIn = (props) => {
             className="g-image"
           />
         </span>
-        <span className="text-gray-500 text-sm md:text-base">Sign in with Goggle</span>
+        <span className="text-gray-500 text-sm md:text-base">
+          Sign in with Goggle
+        </span>
       </Link>
     </div>
   );

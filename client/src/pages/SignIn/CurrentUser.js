@@ -1,9 +1,12 @@
 import { onAuthStateChanged, signOut } from "@firebase/auth";
 import React, { useState, useEffect } from "react";
 import { firebaseAuth } from "../../Firebase";
+import { useNavigate } from "react-router-dom";
+
 
 const CurrentUser = () => {
   const [currentUser, setCurrentUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const listen = onAuthStateChanged(firebaseAuth, (user) => {
@@ -22,6 +25,7 @@ const CurrentUser = () => {
     signOut(firebaseAuth)
       .then(() => {
         console.log("signed out successfully");
+        navigate('/');
       })
       .catch((error) => console.log(error));
   };
@@ -34,7 +38,7 @@ const CurrentUser = () => {
           <p>{`Signed In ${currentUser.email}`}</p>{" "}
           <button
             onClick={handleSignOut}
-            className="bg-pink-200"
+            className="text-white bg-orange-200 py-1 px-4 rounded-lg my-2"
           >
             Sign Out
           </button>{" "}

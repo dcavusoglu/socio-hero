@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { firebaseAuth } from "../../Firebase";
 import {
   signInWithPopup,
@@ -8,7 +8,6 @@ import {
 } from "firebase/auth";
 
 import google from "../../assets/google-40.png";
-//import SignInGoogle from "./SignInGoogle";
 import glass from "../../assets/glass.png";
 
 const SignIn = (props) => {
@@ -31,7 +30,10 @@ const SignIn = (props) => {
 
   const googleSignin = () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(firebaseAuth, provider);
+    signInWithPopup(firebaseAuth, provider).then(result => {
+      const user = result.user;
+      if(user) navigate('/dashboard')
+    });
   };
 
   return (
@@ -73,12 +75,11 @@ const SignIn = (props) => {
           Sign In
         </button>
       </form>
-      <Link
-        to="/dashboard"
+      <div
         onClick={googleSignin}
         className="flex flex-row items-center justify-center drop-shadow-2xl border-2 border-gray-100 p-2 rounded-lg"
       >
-        <span>
+        <span >
           <img
             src={google}
             alt="G"
@@ -88,7 +89,7 @@ const SignIn = (props) => {
         <span className="text-gray-500 text-sm md:text-base">
           Sign in with Goggle
         </span>
-      </Link>
+      </div>
     </div>
   );
 };

@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import shareBtn from "../../assets/share.svg";
+import heart from "../../assets/heart.svg"
 import drinkImage from "../../assets/drink.jpeg";
+import { firebaseAuth } from "../../Firebase";
+import { onAuthStateChanged } from "@firebase/auth";
 
 const Cocktail = () => {
   const { id } = useParams();
@@ -11,6 +14,20 @@ const Cocktail = () => {
 
   const cocktailUrl = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php";
   const ingredientUrl = "https://www.thecocktaildb.com/images/ingredients/";
+
+
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(()=> {
+
+    onAuthStateChanged(firebaseAuth, (user) => {
+        if (user) {
+          setCurrentUser(user);
+        } else {
+          setCurrentUser(null);
+        }
+      });
+    },[])
 
   useEffect(() => {
     axios.get(`${cocktailUrl}?i=${id}`).then((response) => {
@@ -61,6 +78,12 @@ const Cocktail = () => {
           alt="share"
           className="w-6 mr-4"
         />
+        {currentUser && <img
+          src={heart}
+          alt="share"
+          className="w-6 mr-4"
+        />}
+
       </div>
       {cocktail ? (
         <div>

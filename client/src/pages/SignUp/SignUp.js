@@ -1,32 +1,45 @@
 import React, { useState } from "react";
 import "./SignUp.css";
 import { useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { firebaseAuth } from "../../Firebase";
 import glass from "../../assets/glass.png";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
-const onSubmit = async (e) => {
-  e.preventDefault()
-  await createUserWithEmailAndPassword(firebaseAuth, email, password)
-    .then((userCredential) => {
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    await createUserWithEmailAndPassword(
+      firebaseAuth,
+      email,
+      password,
+      username
+    )
+      .then((userCredential) => {
+        console.log(userCredential);
         // Signed in
         const user = userCredential.user;
-        console.log(user);
-        if(user) {
-          navigate('/dashboard')
+        updateProfile(user, {
+          displayName: username,
+        });
+
+        if (user) {
+          console.log(user);
+          console.log(username);
+          navigate("/dashboard");
         }
-    })
-    .catch((error) => {
+      })
+
+      .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode, errorMessage);
-    });
-  }
+      });
+  };
 
   return (
     <div className="auth-form-wrapper">
@@ -37,11 +50,19 @@ const onSubmit = async (e) => {
           className="glass-img"
         />
       </span>
-      <form
-        className="auth-form"
-      >
+      <form className="auth-form">
         <div className="flex flex-col items-center w-1/2">
           <h2 className="text-purple-500 font-semibold text-xl">Sign Up</h2>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={username}
+            placeholder="username"
+            required
+            onChange={(e) => setUsername(e.target.value)}
+            className="border-2 rounded-lg border-purple-500/[.55] px-2 h-8 mt-4 w-64"
+          />
           <input
             type="email"
             id="email"
@@ -63,10 +84,12 @@ const onSubmit = async (e) => {
             className="border-2 rounded-lg border-purple-500/[.55] px-2 h-8 mt-4 w-64"
           />
 
-            <button onClick={onSubmit} className="text-white  bg-purple-500 py-1 px-4 rounded-lg my-2">
-              Sign Up
-            </button>
-
+          <button
+            onClick={onSubmit}
+            className="text-white  bg-purple-500 py-1 px-4 rounded-lg my-2"
+          >
+            Sign Up
+          </button>
         </div>
       </form>
     </div>

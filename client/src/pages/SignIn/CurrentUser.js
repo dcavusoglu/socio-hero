@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { firebaseAuth } from "../../Firebase";
 import { useNavigate } from "react-router-dom";
 
-
 const CurrentUser = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const navigate = useNavigate();
@@ -25,7 +24,7 @@ const CurrentUser = () => {
     signOut(firebaseAuth)
       .then(() => {
         console.log("signed out successfully");
-        navigate('/');
+        navigate("/");
       })
       .catch((error) => console.log(error));
   };

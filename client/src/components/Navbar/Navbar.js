@@ -11,15 +11,14 @@ const Navbar = () => {
   const [userName, setUserName] = useState("");
 
   useEffect(() => {
+    console.log(firebaseAuth.currentUser);
     onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
         const name = user.displayName;
-        console.log(user.displayName);
-        setCurrentUser(user);
         setUserName(name);
+        setCurrentUser(user);
       } else {
         setCurrentUser(null);
-        console.log("nulliyorum");
       }
     });
   }, []);
@@ -39,6 +38,7 @@ const Navbar = () => {
       {currentUser ? (
         <div className="mr-2">
           <span className="text-xs text-white mr-1">{`Hello, ${userName}!`}</span>
+          {/* <span className="text-xs text-white mr-1">{`Hello, ${userName.split(' ')[0]}!`}</span> */}
           <Link
             to="/dashboard"
             className="font-sans md:text-base text-xs text-white font-semibold mr-4"

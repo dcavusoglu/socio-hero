@@ -1,27 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { firebaseAuth } from "../../Firebase";
-import { onAuthStateChanged } from "@firebase/auth";
+// import { firebaseAuth } from "../../Firebase";
+// import { onAuthStateChanged } from "@firebase/auth";
 
 import "./Navbar.css";
 import logo from "../../assets/logo.png";
+import { UserContext } from "../../App";
 
 const Navbar = () => {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [userName, setUserName] = useState("");
-
-  useEffect(() => {
-    console.log(firebaseAuth.currentUser);
-    onAuthStateChanged(firebaseAuth, (user) => {
-      if (user) {
-        const name = user.displayName;
-        setUserName(name);
-        setCurrentUser(user);
-      } else {
-        setCurrentUser(null);
-      }
-    });
-  }, []);
+  const { currentUser, userName } = useContext(UserContext);
 
   return (
     <nav className="h-12 bg-gradient-to-r from-purple-500 to-pink-500 flex flex-row justify-between items-center">

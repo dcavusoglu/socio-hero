@@ -11,29 +11,29 @@ const SignUp = () => {
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();
 
-const onSubmit = async (e) => {
-  e.preventDefault()
+  const onSubmit = async (e) => {
+    e.preventDefault();
 
-  await createUserWithEmailAndPassword(firebaseAuth, email, password)
-    .then((userCredential) => {
+    await createUserWithEmailAndPassword(firebaseAuth, email, password)
+      .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
         console.log(user);
         updateProfile(user, {
           displayName: userName,
-        }).then(function() {
-            console.log(firebaseAuth.currentUser.displayName);
-        })
-        if(user) {
-          navigate('/dashboard')
-        } 
-    })
-    .catch((error) => {
+        }).then(function () {
+          console.log(firebaseAuth.currentUser.displayName);
+        });
+        if (user) {
+          navigate("/dashboard");
+        }
+      })
+      .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode, errorMessage);
-    });
-  }
+      });
+  };
 
   return (
     <div className="auth-form-wrapper">
@@ -44,9 +44,7 @@ const onSubmit = async (e) => {
           className="glass-img"
         />
       </span>
-      <form
-        className="auth-form"
-      >
+      <form className="auth-form">
         <div className="flex flex-col items-center w-1/2">
           <h2 className="text-purple-500 font-semibold text-xl">Sign Up</h2>
           <input
@@ -80,10 +78,12 @@ const onSubmit = async (e) => {
             className="border-2 rounded-lg border-purple-500/[.55] px-2 h-8 mt-4 w-64"
           />
 
-            <button onClick={onSubmit} className="text-white  bg-purple-500 py-1 px-4 rounded-lg my-2">
-              Sign Up
-            </button>
-
+          <button
+            onClick={onSubmit}
+            className="text-white  bg-purple-500 py-1 px-4 rounded-lg my-2"
+          >
+            Sign Up
+          </button>
         </div>
       </form>
     </div>

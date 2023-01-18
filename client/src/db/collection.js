@@ -1,11 +1,12 @@
+
 import { collection, addDoc } from "firebase/firestore";
 import db from '../Firebase'
 
+
+
 try {
-  const docRef = await addDoc(collection(db, "users"), {
-    first: "Ada",
-    last: "Lovelace",
-    born: 1815
+  const docRef = await addDoc(collection(db, "favorites"), {
+    favoriteId: "Ada"
   });
   console.log("Document written with ID: ", docRef.id);
 } catch (e) {

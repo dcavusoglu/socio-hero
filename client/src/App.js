@@ -16,6 +16,7 @@ export const UserContext = createContext();
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [userName, setUserName] = useState("");
+  const [cocktail, setCocktail] = useState("");
 
   useEffect(() => {
     onAuthStateChanged(firebaseAuth, (user) => {
@@ -37,6 +38,8 @@ function App() {
           setCurrentUser,
           userName,
           setUserName,
+          cocktail,
+          setCocktail
         }}
       >
         <Router>

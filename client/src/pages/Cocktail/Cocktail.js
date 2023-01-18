@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import shareBtn from "../../assets/share.svg";
@@ -6,14 +6,18 @@ import heart from "../../assets/heart.svg";
 import drinkImage from "../../assets/drink.jpeg";
 import { UserContext } from "../../App";
 
+import { collection, addDoc } from "firebase/firestore";
+import {db} from '../../Firebase'
+
+
+
 const Cocktail = () => {
   const { id } = useParams();
-  const [cocktail, setCocktail] = useState("");
 
   const cocktailUrl = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php";
   const ingredientUrl = "https://www.thecocktaildb.com/images/ingredients/";
 
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, userName, cocktail, setCocktail } = useContext(UserContext);
 
   useEffect(() => {
     axios.get(`${cocktailUrl}?i=${id}`).then((response) => {
@@ -22,38 +26,21 @@ const Cocktail = () => {
     });
   }, []);
 
-  // useEffect(() => {
-  //   getIngredientList();
-  // }, [cocktail]);
+  const handleFav = async() => {
+    console.log(cocktail)
+    try {
+    const docRef = await addDoc(collection(db, userName ), {
+      favoriteId: cocktail.idDrink
+    });
+    console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
 
-  // const getIngredientList = () => {
-  //   if (cocktail) {
-  //     const ingredientList = [];
-  //     ingredientList.push(cocktail?.strIngredient1);
-  //     ingredientList.push(cocktail?.strIngredient2);
-  //     ingredientList.push(cocktail?.strIngredient3);
-  //     ingredientList.push(cocktail?.strIngredient4);
-  //     ingredientList.push(cocktail?.strIngredient5);
-  //     setIngredients(ingredientList);
-  //   }
-  // };
-  // bu kısım pngler için değişik bir kod oluşturdu, çoüınukla map içindeki item null ya da undefined geldi
-  // onun yerine html de bir mapleme girişimi oldu, o da boş döndü
-  // son adım tek tek yazarak göstermek oldu 118. satır
-  // TODO for loop ile strIngredientX son hanedeki sayı değiştirilip kontrol edilir varsa html kod çalışır
-  // const getIngredientPics = () => {
-  //   const picList = [];
-  //   ingredients?.map((item) => {
-  //     //  console.log("item", item);
-  //     axios.get(`${ingredientUrl}${item}-Medium.png`).then((res) => {
-  //       console.log("pic", res);
-  //       picList.push(res);
-  //     });
-  //   });
-  //   setpicUrls(picList);
-  //  console.log("picList", picList);
-  //  console.log("picccc", picUrls);
-  // };
+
+
+
 
   return (
     <div className="lg:mt-12 md:mt-12">
@@ -68,6 +55,7 @@ const Cocktail = () => {
             src={heart}
             alt="share"
             className="w-6 mr-4"
+            onClick={handleFav}
           />
         )}
       </div>
